@@ -9,6 +9,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   var promedio = 7.0;
+  double roundedPromedio;
   final n1 = TextEditingController();
   final n2 = TextEditingController();
   final n3 = TextEditingController();
@@ -17,12 +18,33 @@ class _HomeState extends State<Home> {
   final p3 = TextEditingController();
 
   void calcularPromedio() {
-    promedio = (double.parse(n1.text) * (double.parse(p1.text) / 100) +
-        double.parse(n2.text) * (double.parse(p2.text) / 100) +
-        double.parse(n3.text) * (double.parse(p3.text) / 100));
     setState(() {
-      promedio.toStringAsFixed(2);
+      promedio = (double.parse(n1.text) * (double.parse(p1.text) / 100) +
+          double.parse(n2.text) * (double.parse(p2.text) / 100) +
+          double.parse(n3.text) * (double.parse(p3.text) / 100));
+      roundedPromedio = double.parse(promedio.toStringAsFixed(2));
+
+      print(roundedPromedio);
     });
+  }
+
+  void _showBottom() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Column(
+            children: <Widget>[
+              ListTile(
+                leading: Icon(Icons.person),
+                title: Text("Perfil"),
+              ),
+              ListTile(
+                leading: Icon(Icons.photo_camera),
+                title: Text("Cámara"),
+              )
+            ],
+          );
+        });
   }
 
   @override
@@ -31,7 +53,7 @@ class _HomeState extends State<Home> {
       home: Scaffold(
           appBar: AppBar(
             title: Text("Bienvenido"),
-            backgroundColor: Colors.redAccent,
+            backgroundColor: Colors.red,
           ),
           body: SingleChildScrollView(
               child: Padding(
@@ -49,17 +71,18 @@ class _HomeState extends State<Home> {
                           children: <Widget>[
                             Flexible(
                               child: TextField(
-                                controller: n1,
-                                decoration:
-                                    InputDecoration(hintText: 'Ingrese nota 1'),
-                              ),
+                                  controller: n1,
+                                  decoration: InputDecoration(
+                                      hintText: 'Ingrese nota 1'),
+                                  keyboardType: TextInputType.numberWithOptions(
+                                      decimal: true)),
                             ),
                             Flexible(
                               child: TextField(
-                                controller: p1,
-                                decoration: InputDecoration(
-                                    hintText: 'Ingrese ponderación'),
-                              ),
+                                  controller: p1,
+                                  decoration: InputDecoration(
+                                      hintText: 'Ingrese ponderación'),
+                                  keyboardType: TextInputType.number),
                             )
                           ],
                         ),
@@ -68,17 +91,18 @@ class _HomeState extends State<Home> {
                           children: <Widget>[
                             Flexible(
                               child: TextField(
-                                controller: n2,
-                                decoration:
-                                    InputDecoration(hintText: 'Ingrese nota 2'),
-                              ),
+                                  controller: n2,
+                                  decoration: InputDecoration(
+                                      hintText: 'Ingrese nota 2'),
+                                  keyboardType: TextInputType.numberWithOptions(
+                                      decimal: true)),
                             ),
                             Flexible(
                               child: TextField(
-                                controller: p2,
-                                decoration: InputDecoration(
-                                    hintText: 'Ingrese ponderación'),
-                              ),
+                                  controller: p2,
+                                  decoration: InputDecoration(
+                                      hintText: 'Ingrese ponderación'),
+                                  keyboardType: TextInputType.number),
                             )
                           ],
                         ),
@@ -87,17 +111,18 @@ class _HomeState extends State<Home> {
                           children: <Widget>[
                             Flexible(
                               child: TextField(
-                                controller: n3,
-                                decoration:
-                                    InputDecoration(hintText: 'Ingrese nota 3'),
-                              ),
+                                  controller: n3,
+                                  decoration: InputDecoration(
+                                      hintText: 'Ingrese nota 3'),
+                                  keyboardType: TextInputType.numberWithOptions(
+                                      decimal: true)),
                             ),
                             Flexible(
                               child: TextField(
-                                controller: p3,
-                                decoration: InputDecoration(
-                                    hintText: 'Ingrese ponderación'),
-                              ),
+                                  controller: p3,
+                                  decoration: InputDecoration(
+                                      hintText: 'Ingrese ponderación'),
+                                  keyboardType: TextInputType.number),
                             )
                           ],
                         ),
@@ -120,10 +145,14 @@ class _HomeState extends State<Home> {
                           padding: EdgeInsets.fromLTRB(0, 15, 0, 5),
                           child: Center(
                             child: Text(
-                              "Nota final: $promedio",
+                              "Nota final: $roundedPromedio",
                               style: TextStyle(fontSize: 30),
                             ),
                           ),
+                        ),
+                        RaisedButton(
+                          child: Text("Opciones"),
+                          onPressed: () => _showBottom(),
                         )
                       ],
                     ),
@@ -141,5 +170,10 @@ class _HomeState extends State<Home> {
  */
 
 /*
-
+TextField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),icon: Icon(Icons.cake),
+                            labelText: 'Password',
+                          ),
+                        ),
  */
